@@ -15,6 +15,8 @@ echo Export Docker image to tar
 CONTAINER_ID=$(docker run -d initramfs-${dist}:latest /bin/true)
 docker export -o initramfs.tar ${CONTAINER_ID}
 
+rm -rf root
+mkdir -p dev/ram
 echo Look for the kernel
 KERNEL_PATH=$(tar tvf initramfs.tar --wildcards 'boot/vmlinuz*' | awk '{print $6}' | head -1)
 echo Kernel found at ${KERNEL_PATH}, extracting

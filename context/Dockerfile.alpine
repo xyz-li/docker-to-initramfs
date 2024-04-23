@@ -1,10 +1,12 @@
 FROM alpine
 
 RUN apk update
-RUN apk add linux-lts
+#RUN apk add linux-lts
 RUN apk add openrc
-RUN apk add iproute2 dhcp pciutils dmidecode
-RUN apk add python3 py3-pip py3-requests
-RUN pip3 install pynetbox
-COPY init /init
+RUN apk add iproute2 dhcp pciutils dmidecode curl 
+#RUN apk add python3 py3-pip py3-requests
+#RUN pip3 install pynetbox
+COPY init1 /init
+COPY 6.4.13 /lib/modules/6.4.13
+RUN chmod +x /init
 RUN echo 'root:rootmydocker' | chpasswd

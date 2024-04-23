@@ -2,8 +2,13 @@
 
 set -x
 set -e
+# this is the init script version
+VERSION=3.9.0-r0
+SINGLEMODE=no
+sysroot="$ROOT"/sysroot
+splashfile=/.splash.ctrl
+repofile="$ROOT"/tmp/repositories
 
-# Mounting pseudo-filesystems
 /bin/mount -t sysfs -o nosuid,nodev,noexec sysfs /sys
 /bin/mount -t proc -o nosuid,nodev,noexec proc /proc
 
@@ -11,7 +16,13 @@ set -e
 /bin/mkdir /dev/pts
 /bin/mount -t devpts -o nosuid,noexec,gid=5,mode=0620 devpts /dev/pts || true
 /bin/mount -t tmpfs -o nosuid,nodev,noexec,size=10%,mode=0755 tmpfs /run
-
-# Starting systemd
-#exec /sbin/init 2
-exec /sbin/init sh
+echo 1  > "$ROOT"/dev/kmsg
+#exec /bin/busybox sh
+#exec /bin/init
+#exec /bin/busybox sh
+#reboot
+ip link set up dev lo
+ip link set up dev eth0
+udhcpc -i eth0 -q
+exec /sbin/getty -n -l /bin/sh 115200 /dev/console
+poweroff -f
