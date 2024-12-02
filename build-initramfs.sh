@@ -18,10 +18,10 @@ docker export -o initramfs.tar ${CONTAINER_ID}
 rm -rf root
 mkdir -p dev/ram
 echo Look for the kernel
-KERNEL_PATH=$(tar tvf initramfs.tar --wildcards 'boot/vmlinuz*' | awk '{print $6}' | head -1)
-echo Kernel found at ${KERNEL_PATH}, extracting
-tar xvf initramfs.tar ${KERNEL_PATH}
-mv ${KERNEL_PATH} linux
+#KERNEL_PATH=$(tar tvf initramfs.tar --wildcards 'boot/vmlinuz*' | awk '{print $6}' | head -1)
+#echo Kernel found at ${KERNEL_PATH}, extracting
+#tar xvf initramfs.tar ${KERNEL_PATH}
+#mv ${KERNEL_PATH} linux
 
 echo Convert tarball to cpio SVR4
 bsdtar --format=newc -cf - @initramfs.tar > initramfs.cpio
